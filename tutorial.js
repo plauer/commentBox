@@ -36,15 +36,24 @@ var CommentForm = React.createClass({
   }
 })
 
+var converter = new Showdown.converter();
 var Comment = React.createClass({
   render: function() {
+    var rawMarkup = converter.makeHtml(this.props.children.toString())
     return (
       <div className="comment">
         <h2 className="commentAuthor">
-          {this.props.Author}
+          {this.props.author}
         </h2>
-        {this.props.children}
+        <span dangerouslySetInnterHTML={{__html: rawMarkup}} />
       </div>
     )
   }
 })
+
+var data = [
+  {author: "Pete Hunt", text: "This is a comment"},
+  {author: "Jordan Walke", text: "This is *another* comment"}
+];
+
+
