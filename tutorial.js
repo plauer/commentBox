@@ -1,9 +1,12 @@
 var CommentBox = React.creatClass({
+  getInitialState: function() {
+    return {data: []};
+  },
   render: function() {
     return (
       <div className="commentBox">
         <h1>Comments</h1>
-        <CommentList data={this.props.data} />
+        <CommentList data={this.state.data} />
         <CommentForm />
       </div>
     );
@@ -11,7 +14,7 @@ var CommentBox = React.creatClass({
 });
 
 React.render(
-  <CommentBox data={data} />,
+  <CommentBox url="commets.json" />,
   document.getElementById('content')
 ]);
 
@@ -57,9 +60,9 @@ var Comment = React.createClass({
 })
 
 
-var data = [
-  {author: "Pete Hunt", text: "This is a comment"},
-  {author: "Jordan Walke", text: "This is *another* comment"}
-];
+[
+  {"author": "Pete Hunt", "text": "This is one comment"},
+  {"author": "Jordan Walke", "text": "This is *another* comment"}
+]
 
 
