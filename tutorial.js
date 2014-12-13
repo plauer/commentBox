@@ -1,6 +1,22 @@
-var CommentBox = React.creatClass({
+var CommentBox = React.createClass({
   getInitialState: function() {
     return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval)
+  },
+  loadCommentsFromServer: function() {
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    })
   },
   render: function() {
     return (
@@ -14,9 +30,9 @@ var CommentBox = React.creatClass({
 });
 
 React.render(
-  <CommentBox url="commets.json" />,
+  <CommentBox url="commets.json" pollInterval={2000} />,
   document.getElementById('content')
-]);
+);
 
 var CommentList = React.createClass({
   render: function() {
@@ -35,11 +51,17 @@ var CommentList = React.createClass({
 })
 
 var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = this.refs.author.getDOMNode().value.
+  }
   render: function() {
     return (
-      <div className="commentForm">
-        Hello, world! I am a CommentForm.
-      </div>
+      <form className="commentForm">
+        <input type="text" placeholder="Your name" />
+        <input type="text" placeholder="Say something..." />
+        <input type = "submit" value="Post" />
+      </form>
     );
   }
 })
